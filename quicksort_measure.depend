@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1638664081 source:c:\users\raphael\desktop\quicksort_measure\main.cpp
+	<iostream>
+	<vector>
+	<chrono>
+	<functional>
+	<random>
+	<algorithm>
+	<cmath>
+	<cassert>
+
