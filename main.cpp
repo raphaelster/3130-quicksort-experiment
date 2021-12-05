@@ -7,8 +7,6 @@
 #include <cmath>
 #include <cassert>
 
-using namespace std;
-
 
 class Timer {
     public:
@@ -28,13 +26,13 @@ class Timer {
 
 };
 
-void swap(vector<int>& arr, int aIdx, int bIdx) {
+void swap(std::vector<int>& arr, int aIdx, int bIdx) {
     int tmp = arr.at(aIdx);
     arr[aIdx] = arr.at(bIdx);
     arr[bIdx] = tmp;
 }
 
-void _quicksort(vector<int>& in, int lo, int hi, std::function<int(int, int)> randFunc) {
+void _quicksort(std::vector<int>& in, int lo, int hi, std::function<int(int, int)> randFunc) {
     if (hi - lo <= 1) return;
     if (hi - lo == 2) {
         if (in.at(lo) > in.at(hi-1)) swap(in, lo, hi-1);
@@ -63,13 +61,13 @@ void _quicksort(vector<int>& in, int lo, int hi, std::function<int(int, int)> ra
 }
 
 
-void quicksort(vector<int>& in, std::function<int(int lo, int hi)> randFunc) {
+void quicksort(std::vector<int>& in, std::function<int(int lo, int hi)> randFunc) {
 
     _quicksort(in, 0, in.size(), randFunc);
 }
 
-double timeQuicksort(const vector<int>& in, std::function<int(int lo, int hi)> randFunc) {
-    vector<int> outList;
+double timeQuicksort(const std::vector<int>& in, std::function<int(int lo, int hi)> randFunc) {
+    std::vector<int> outList;
 
     for (int i : in) outList.push_back(i);
 
@@ -80,7 +78,7 @@ double timeQuicksort(const vector<int>& in, std::function<int(int lo, int hi)> r
 
     double out = timer.stop();
 
-    for (int i=1; i<outList.size(); i++) assert(outList.at(i-1) <= outList.at(i));
+    for (size_t i=1; i<outList.size(); i++) assert(outList.at(i-1) <= outList.at(i));
     return out;
 }
 
@@ -118,12 +116,12 @@ struct ListStatistics {
     }
 };
 
-vector<double> runQuicksortTrials(int listSize, int listMin, int listMax, std::function<int(int hi, int lo)> randFunc, int numTrials) {
-    vector<int> list;
+std::vector<double> runQuicksortTrials(int listSize, int listMin, int listMax, std::function<int(int hi, int lo)> randFunc, int numTrials) {
+    std::vector<int> list;
 
     for (int i=0; i<listSize;  i++) list.push_back(randFunc(listMin, listMax));
 
-    vector<double> out;
+    std::vector<double> out;
 
     for (int i=0; i<numTrials; i++) out.push_back(timeQuicksort(list, randFunc));
 
@@ -140,12 +138,12 @@ int main() {
     const int MAX_LIST_ELEMENT = 1000;
     const int NUM_TRIALS = 100;
 
-    vector<double> beforeTest = runQuicksortTrials( BASE_LIST_SIZE, MIN_LIST_ELEMENT, MAX_LIST_ELEMENT, random, NUM_TRIALS);
+    std::vector<double> beforeTest = runQuicksortTrials( BASE_LIST_SIZE, MIN_LIST_ELEMENT, MAX_LIST_ELEMENT, random, NUM_TRIALS);
     for (double d : beforeTest) std::cout<<d<<std::endl;
     ListStatistics beforeTestStats(beforeTest);
     std::cout<<"beforeTestStats:\n"<<beforeTestStats<<std::endl;
 
-    vector<double> afterTest = runQuicksortTrials(2*BASE_LIST_SIZE, MIN_LIST_ELEMENT, MAX_LIST_ELEMENT, random, NUM_TRIALS);
+    std::vector<double> afterTest = runQuicksortTrials(2*BASE_LIST_SIZE, MIN_LIST_ELEMENT, MAX_LIST_ELEMENT, random, NUM_TRIALS);
     for (double d : afterTest) std::cout<<d<<std::endl;
     ListStatistics afterTestStats(afterTest);
     std::cout<<"afterTestStats:\n"<<afterTestStats<<std::endl;
